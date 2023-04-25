@@ -12,8 +12,10 @@ app.use(express.json());
 app.use(express.static("public"));
 
 //routes to the file routes
-require('./routes/apiRoutes')(app);
-require('./routes/htmlRoutes.js')(app);
+const apiRoutes = require("./routes/apiRoutes");
+app.use(apiRoutes);
+const htmlRoutes = require("./routes/htmlRoutes");
+app.use(htmlRoutes);
 
 //starting the server
 app.listen(PORT, () => {
