@@ -1,42 +1,37 @@
-const express = require("express");
-const router = express.Router();
+const router = require('express').Router();
 
-var uuid = require('uuid');
+const store = require('../db/store');
 
-//brings in the DB class as an object
-const DB = require('../db/DB');
+// requesting the existing notes
 
-//route to get the notes
-router.get("/api/notes", async function (req, res) {
-    const notes = await DB.readNotes();
-    return res.json(notes);
-});
+router.get('/notes', (req, res) => {
+    store
+      .getNotes()
+      .then((notes) => {
+        return res.json(notes);
+      })
+      .catch((err) => res.status(500).json(err));
+  });
 
-//route to add a new note and to add it to the json file
-router.post("/api/notes", async function (req, res) {
-    const currentNotes = await DB.readNotes();
-    let newNote = {
-        id: uuid(),
-        title: req.body.title,
-        text: req.body.text,
-    };
+// posting note function route 
 
-    await DB.addNote([...currentNotes, newNote]);
+router.post('/notes', (req, res) => {
+    console.log(req.body)
+    store
+        .addNote(req.body)
+        .then((note) => res.json(note))
+   
+        .catch((err) => res.status(500).json(err))
+})
 
-    return res.send(newNote);
-});
 
-// route to delete notes
-router.delete("/api/notes/:id", async function (req, res) {
-    const noteDelete = req.params.id;
+// delete note function route
 
-    const currentNotes = await DB.readNotes();
-
-    const newNoteData = currentNotes.filter((note) => note.id !== noteDelete);
-
-    await DB.deleteNote(newNoteData);
-
-    return res.send(newNoteData);
-});
+router.delete('/notes/:id', (req, res) => {
+    store
+        .removeNote(req.params.id)
+        .then(() => res.json({ ok: true }))
+        .catch(err => res.status(500).json(err))
+})
 
 module.exports = router;

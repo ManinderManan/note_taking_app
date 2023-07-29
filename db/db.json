@@ -1,6 +1,4 @@
-[
-    {
-        "title":"Test Title",
-        "text":"Test text"
-    }
-]
+[{"title":"Test Title","text":"Test text"},
+{"title":"Batman","text":"yes","id":"fa859010-e4c9-11ed-950c-15302aa66a71"},
+{"title":"Clark Kent","text":"Superman","id":"de7b7890-e50e-11ed-b123-79f9ec881b00"},
+{"title":"Marvel","text":"Spiderman","id":"1ba44ae0-e536-11ed-a732-ed0de517595e"}]
